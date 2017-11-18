@@ -266,6 +266,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     requestForHelpOnFeature);
   var templateElements = [];
   var sectionButtons = [];
+  var user_name = "";
   // each button must be of type postback but title
   // and payload are variable depending on which 
   // set of options you want to provide
@@ -283,52 +284,10 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
 
   switch (requestForHelpOnFeature) {
     case 'PROFILE_NAME':
-      console.log("PROFILE_NAME");
-      addSectionButton('', 'QR_PHOTO_1');
-      addSectionButton('Caption', 'QR_CAPTION_1');
-      addSectionButton('Background', 'QR_BACKGROUND_1');
-      
-      templateElements.push(
-        {
-          title: "Rotation",
-          subtitle: "portrait mode",
-          image_url: IMG_BASE_PATH + "01-rotate-landscape.png",
-          buttons: sectionButtons 
-        }, 
-        {
-          title: "Rotation",
-          subtitle: "landscape mode",
-          image_url: IMG_BASE_PATH + "02-rotate-portrait.png",
-          buttons: sectionButtons 
-        }
-      );
+      user_name = "VAR";
     break; 
     case 'GIVE_ANOTHER_NAME':
-      console.log("GIVE_ANOTHER_NAME");
-      addSectionButton('Rotation', 'QR_ROTATION_1');
-      addSectionButton('Caption', 'QR_CAPTION_1');
-      addSectionButton('Background', 'QR_BACKGROUND_1');
-
-      templateElements.push(
-        {
-          title: "Photo Picker",
-          subtitle: "click to start",
-          image_url: IMG_BASE_PATH + "03-photo-hover.png",
-          buttons: sectionButtons 
-        }, 
-        {
-          title: "Photo Picker",
-          subtitle: "Downloads folder",
-          image_url: IMG_BASE_PATH + "04-photo-list.png",
-          buttons: sectionButtons 
-        },
-        {
-          title: "Photo Picker",
-          subtitle: "photo selected",
-          image_url: IMG_BASE_PATH + "05-photo-selected.png",
-          buttons: sectionButtons 
-        }        
-      );
+      user_name = "other name";
     break; 
  
   }
@@ -342,13 +301,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
       id: recipientId
     },
     message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          // elements: templateElements
-        }
-      }
+      text: "Hello, "+user_name+"!"
     }
   };
 
