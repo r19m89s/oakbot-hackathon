@@ -158,8 +158,8 @@ function processMessageFromPage(event) {
   var message = event.message;
   var recipientName = event.recipient.
 
-  console.log("[processMessageFromPage] user (%d) page (%d) timestamp (%d) and message (%s)", 
-    senderID, pageID, timeOfMessage, JSON.stringify(message));
+  // console.log("[processMessageFromPage] user (%d) page (%d) timestamp (%d) and message (%s)", 
+  //   senderID, pageID, timeOfMessage, JSON.stringify(message));
 
   if (message.quick_reply) {
     console.log("[processMessageFromPage] quick_reply.payload (%s)", 
