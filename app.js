@@ -433,6 +433,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
 // function getImageAttachments(recipientId, helpRequestType) {
   function getNameOptions(recipientId, helpRequestType) {
   var textToSend = '';
+  var profileName = 
   var quickReplies = [
     {
       "content_type":"text",
@@ -464,14 +465,14 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     // the Rotation feature
     case 'PROFILE_NAME' :
       textToSend = 'Hello, **{{user_first_name}}**!';
-      quickReplies[1].payload = "QR_ROTATION_2";
+      // quickReplies[1].payload = "QR_ROTATION_2";
     break; 
     case 'GIVE_ANOTHER_NAME' :
       // 1 of 2 (portrait, landscape)
       attachment.payload = {
         url: IMG_BASE_PATH + "01-rotate-landscape.png"
       }
-      quickReplies[1].payload = "QR_ROTATION_3";
+      // quickReplies[1].payload = "QR_ROTATION_3";
     break; 
     default : 
       sendHelpOptionsAsQuickReplies(recipientId);
