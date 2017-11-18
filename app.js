@@ -198,7 +198,7 @@ function greet(recipientId) {
       id: recipientId
     },
     message: {
-      text: "Choose either to go by your profile name or input another name.",
+      text: "Hello, my name is Celeste. What would you like me to call you?",
       quick_replies: [
         { 
           "content_type":"text",
@@ -282,8 +282,9 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
   // This provides the user with maximum flexibility to navigate
 
   switch (requestForHelpOnFeature) {
-    case 'QR_ROTATION_1':
-      addSectionButton('Photo', 'QR_PHOTO_1');
+    case 'PROFILE_NAME':
+      messageData = 
+      addSectionButton('', 'QR_PHOTO_1');
       addSectionButton('Caption', 'QR_CAPTION_1');
       addSectionButton('Background', 'QR_BACKGROUND_1');
       
@@ -302,7 +303,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
         }
       );
     break; 
-    case 'QR_PHOTO_1':
+    case 'GIVE_ANOTHER_NAME':
       addSectionButton('Rotation', 'QR_ROTATION_1');
       addSectionButton('Caption', 'QR_CAPTION_1');
       addSectionButton('Background', 'QR_BACKGROUND_1');
@@ -429,7 +430,8 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
  * be consumed in a strict linear order.
  *
  */
-function getImageAttachments(recipientId, helpRequestType) {
+// function getImageAttachments(recipientId, helpRequestType) {
+  function getNameOptions(recipientId, helpRequestType) {
   var textToSend = '';
   var quickReplies = [
     {
@@ -460,139 +462,17 @@ function getImageAttachments(recipientId, helpRequestType) {
     break;
     
     // the Rotation feature
-    case 'QR_ROTATION_1' :
-      textToSend = 'Click the Rotate button to toggle the poster\'s orientation between landscape and portrait mode.';
+    case 'PROFILE_NAME' :
+      textToSend = 'Hello, **{{user_first_name}}**!';
       quickReplies[1].payload = "QR_ROTATION_2";
     break; 
-    case 'QR_ROTATION_2' :
+    case 'GIVE_ANOTHER_NAME' :
       // 1 of 2 (portrait, landscape)
       attachment.payload = {
         url: IMG_BASE_PATH + "01-rotate-landscape.png"
       }
       quickReplies[1].payload = "QR_ROTATION_3";
     break; 
-    case 'QR_ROTATION_3' :
-      // 2 of 2 (portrait, landscape)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "02-rotate-portrait.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Rotation feature
-
-
-    // the Photo feature
-    case 'QR_PHOTO_1' :
-      textToSend = 'Click the Photo button to select an image to use on your poster. We recommend visiting https://unsplash.com/random from your device to seed your Downloads folder with some images before you get started.';
-      quickReplies[1].payload = "QR_PHOTO_2";
-    break; 
-    case 'QR_PHOTO_2' :
-      // 1 of 3 (placeholder image, Downloads folder, poster with image)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "03-photo-hover.png"
-      }
-      quickReplies[1].payload = "QR_PHOTO_3";
-    break; 
-    case 'QR_PHOTO_3' :
-      // 2 of 3 (placeholder image, Downloads folder, poster with image)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "04-photo-list.png"
-      }
-      quickReplies[1].payload = "QR_PHOTO_4";
-    break; 
-    case 'QR_PHOTO_4' :
-      // 3 of 3 (placeholder image, Downloads folder, poster with image)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "05-photo-selected.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Photo feature
-
-
-    // the Caption feature
-    case 'QR_CAPTION_1' :
-      textToSend = 'Click the Text button to set the caption that appears at the bottom of the poster.';
-      quickReplies[1].payload = "QR_CAPTION_2";
-    break; 
-    case 'QR_CAPTION_2' :
-      // 1 of 4 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "06-text-hover.png"
-      }
-      quickReplies[1].payload = "QR_CAPTION_3";
-    break; 
-    case 'QR_CAPTION_3' :
-      // 2 of 4: (hover, entering caption, mid-edit, poster with new caption
-      attachment.payload = {
-        url: IMG_BASE_PATH + "07-text-mid-entry.png"
-      }
-      quickReplies[1].payload = "QR_CAPTION_4";
-    break; 
-    case 'QR_CAPTION_4' :
-      // 3 of 4 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "08-text-entry-done.png"
-      }
-      quickReplies[1].payload = "QR_CAPTION_5";
-    break; 
-    case 'QR_CAPTION_5' :
-      // 4 of 4 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "09-text-complete.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Caption feature
-
-
-
-    // the Color Picker feature
-    case 'QR_BACKGROUND_1' :
-      textToSend = 'Click the Background button to select a background color for your poster.';
-      quickReplies[1].payload = "QR_BACKGROUND_2";
-    break; 
-    case 'QR_BACKGROUND_2' :
-      // 1 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "10-background-picker-hover.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_3";
-    break; 
-    case 'QR_BACKGROUND_3' :
-      // 2 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "11-background-picker-appears.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_4";
-    break; 
-    case 'QR_BACKGROUND_4' :
-      // 3 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "12-background-picker-selection.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_5";
-    break; 
-    case 'QR_BACKGROUND_5' :
-      // 4 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "13-background-picker-selection-made.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_6";
-    break; 
-    case 'QR_BACKGROUND_6' :
-      // 5 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "14-background-changed.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Color Picker feature
-
     default : 
       sendHelpOptionsAsQuickReplies(recipientId);
       return;
