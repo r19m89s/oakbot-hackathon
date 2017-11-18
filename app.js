@@ -305,7 +305,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
       // );
     break; 
     case 'GIVE_ANOTHER_NAME':
-      console.log("GIVE_ANOTHER_NAME, "+name_placeholder[elements]);
+      console.log("GIVE_ANOTHER_NAME");
       // addSectionButton('Rotation', 'QR_ROTATION_1');
       // addSectionButton('Caption', 'QR_CAPTION_1');
       // addSectionButton('Background', 'QR_BACKGROUND_1');
