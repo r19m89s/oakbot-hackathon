@@ -174,9 +174,9 @@ function processMessageFromPage(event) {
     console.log("[processMessageFromPage]: %s", messageText); 
     var lowerCaseMsg = messageText.toLowerCase();
     switch (lowerCaseMsg) {
-      case 'help':
-        // handle 'help' as a special case
-        sendHelpOptionsAsQuickReplies(senderID);
+      case 'hello':
+        // handle 'hello' as a special case
+        greet(senderID);
         break;
       
       default:
@@ -191,34 +191,24 @@ function processMessageFromPage(event) {
  * Send a message with the four Quick Reply buttons 
  * 
  */
-function sendHelpOptionsAsQuickReplies(recipientId) {
+function greet(recipientId) {
   console.log("[sendHelpOptionsAsQuickReplies] Sending help options menu"); 
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: "Select a feature to learn more.",
+      text: "Choose either to go by your profile name or input another name.",
       quick_replies: [
         { 
           "content_type":"text",
-          "title":"Rotation",
-          "payload":"QR_ROTATION_1" 
+          "title":"Go By Profile",
+          "payload":"PROFILE_NAME" 
         },
         { 
           "content_type":"text",
-          "title":"Photo",
-          "payload":"QR_PHOTO_1" 
-        },
-        { 
-          "content_type":"text",
-          "title":"Caption",
-          "payload":"QR_CAPTION_1" 
-        },
-        { 
-          "content_type":"text",
-          "title":"Background",
-          "payload":"QR_BACKGROUND_1" 
+          "title":"Give Another Name",
+          "payload":"GIVE_ANOTHER_NAME" 
         }
       ]
     }
