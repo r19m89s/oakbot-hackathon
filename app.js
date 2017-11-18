@@ -156,6 +156,7 @@ function processMessageFromPage(event) {
   var pageID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
+  var recipientName = event.recipient.
 
   console.log("[processMessageFromPage] user (%d) page (%d) timestamp (%d) and message (%s)", 
     senderID, pageID, timeOfMessage, JSON.stringify(message));
@@ -173,15 +174,19 @@ function processMessageFromPage(event) {
   if (messageText) {
     console.log("[processMessageFromPage]: %s", messageText); 
     var lowerCaseMsg = messageText.toLowerCase();
+    console.log(lowercaseMsg);
     switch (lowerCaseMsg) {
-      case 'help':
+      case 'hello':
         // handle 'help' as a special case
-        sendHelpOptionsAsQuickReplies(senderID);
+        meetPerson(senderID);
         break;
-      
       default:
         // otherwise, just echo it back to the sender
+        // if (user name unknown)
         sendTextMessage(senderID, messageText);
+        // else switch(lowerCaseMsg){
+        askWhatToDo(senderID);          
+        // }
     }
   }
 }
@@ -191,36 +196,53 @@ function processMessageFromPage(event) {
  * Send a message with the four Quick Reply buttons 
  * 
  */
-function sendHelpOptionsAsQuickReplies(recipientId) {
+function meetPerson(recipientId) {
   console.log("[sendHelpOptionsAsQuickReplies] Sending help options menu"); 
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: "Select a feature to learn more.",
+      text: "Hello! my name is Celesta. Would you please give me permission to access your name according to your profile or give me a name to call you?"
       quick_replies: [
-        { 
+        {
           "content_type":"text",
-          "title":"Rotation",
-          "payload":"QR_ROTATION_1" 
+          "title":"grant permission",
+          "payload":"GRANT_PERMISSION"
         },
-        { 
+        {
           "content_type":"text",
-          "title":"Photo",
-          "payload":"QR_PHOTO_1" 
-        },
-        { 
-          "content_type":"text",
-          "title":"Caption",
-          "payload":"QR_CAPTION_1" 
-        },
-        { 
-          "content_type":"text",
-          "title":"Background",
-          "payload":"QR_BACKGROUND_1" 
+          "title":"Give Another Name",
+          "payload":"GIVE_ANOTHER_NAME"
         }
       ]
+
+    }
+  };
+  callSendAPI(messageData);
+}
+
+function askWhatToDo(recipientId) {
+  console.log("[sendHelpOptionsAsQuickReplies] Sending help options menu"); 
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "What can I help you with today?"
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Check In",
+          "payload":"CHECK_IN"
+        },
+        {
+          "content_type":"text",
+          "title":"Connect With Other Users",
+          "payload":"CONNECT_WITH_OTHER_USERS"
+        }
+      ]
+
     }
   };
   callSendAPI(messageData);
@@ -287,328 +309,328 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     });
   }
 
-  // Since there are only four options in total, we will provide 
-  // buttons for each of the remaining three with each section. 
-  // This provides the user with maximum flexibility to navigate
+//   // Since there are only four options in total, we will provide 
+//   // buttons for each of the remaining three with each section. 
+//   // This provides the user with maximum flexibility to navigate
 
-  switch (requestForHelpOnFeature) {
-    case 'QR_ROTATION_1':
-      addSectionButton('Photo', 'QR_PHOTO_1');
-      addSectionButton('Caption', 'QR_CAPTION_1');
-      addSectionButton('Background', 'QR_BACKGROUND_1');
+//   switch (requestForHelpOnFeature) {
+//     case 'QR_ROTATION_1':
+//       addSectionButton('Photo', 'QR_PHOTO_1');
+//       addSectionButton('Caption', 'QR_CAPTION_1');
+//       addSectionButton('Background', 'QR_BACKGROUND_1');
       
-      templateElements.push(
-        {
-          title: "Rotation",
-          subtitle: "portrait mode",
-          image_url: IMG_BASE_PATH + "01-rotate-landscape.png",
-          buttons: sectionButtons 
-        }, 
-        {
-          title: "Rotation",
-          subtitle: "landscape mode",
-          image_url: IMG_BASE_PATH + "02-rotate-portrait.png",
-          buttons: sectionButtons 
-        }
-      );
-    break; 
-    case 'QR_PHOTO_1':
-      addSectionButton('Rotation', 'QR_ROTATION_1');
-      addSectionButton('Caption', 'QR_CAPTION_1');
-      addSectionButton('Background', 'QR_BACKGROUND_1');
+//       templateElements.push(
+//         {
+//           title: "Rotation",
+//           subtitle: "portrait mode",
+//           image_url: IMG_BASE_PATH + "01-rotate-landscape.png",
+//           buttons: sectionButtons 
+//         }, 
+//         {
+//           title: "Rotation",
+//           subtitle: "landscape mode",
+//           image_url: IMG_BASE_PATH + "02-rotate-portrait.png",
+//           buttons: sectionButtons 
+//         }
+//       );
+//     break; 
+//     case 'QR_PHOTO_1':
+//       addSectionButton('Rotation', 'QR_ROTATION_1');
+//       addSectionButton('Caption', 'QR_CAPTION_1');
+//       addSectionButton('Background', 'QR_BACKGROUND_1');
 
-      templateElements.push(
-        {
-          title: "Photo Picker",
-          subtitle: "click to start",
-          image_url: IMG_BASE_PATH + "03-photo-hover.png",
-          buttons: sectionButtons 
-        }, 
-        {
-          title: "Photo Picker",
-          subtitle: "Downloads folder",
-          image_url: IMG_BASE_PATH + "04-photo-list.png",
-          buttons: sectionButtons 
-        },
-        {
-          title: "Photo Picker",
-          subtitle: "photo selected",
-          image_url: IMG_BASE_PATH + "05-photo-selected.png",
-          buttons: sectionButtons 
-        }        
-      );
-    break; 
-    case 'QR_CAPTION_1':
-      addSectionButton('Rotation', 'QR_ROTATION_1');
-      addSectionButton('Photo', 'QR_PHOTO_1');
-      addSectionButton('Background', 'QR_BACKGROUND_1');
+//       templateElements.push(
+//         {
+//           title: "Photo Picker",
+//           subtitle: "click to start",
+//           image_url: IMG_BASE_PATH + "03-photo-hover.png",
+//           buttons: sectionButtons 
+//         }, 
+//         {
+//           title: "Photo Picker",
+//           subtitle: "Downloads folder",
+//           image_url: IMG_BASE_PATH + "04-photo-list.png",
+//           buttons: sectionButtons 
+//         },
+//         {
+//           title: "Photo Picker",
+//           subtitle: "photo selected",
+//           image_url: IMG_BASE_PATH + "05-photo-selected.png",
+//           buttons: sectionButtons 
+//         }        
+//       );
+//     break; 
+//     case 'QR_CAPTION_1':
+//       addSectionButton('Rotation', 'QR_ROTATION_1');
+//       addSectionButton('Photo', 'QR_PHOTO_1');
+//       addSectionButton('Background', 'QR_BACKGROUND_1');
 
-      templateElements.push(
-        {
-          title: "Caption",
-          subtitle: "click to start",
-          image_url: IMG_BASE_PATH + "06-text-hover.png",
-          buttons: sectionButtons 
-        }, 
-        {
-          title: "Caption",
-          subtitle: "enter text",
-          image_url: IMG_BASE_PATH + "07-text-mid-entry.png",
-          buttons: sectionButtons 
-        },
-        {
-          title: "Caption",
-          subtitle: "click OK",
-          image_url: IMG_BASE_PATH + "08-text-entry-done.png",
-          buttons: sectionButtons 
-        },
-        {
-          title: "Caption",
-          subtitle: "Caption done",
-          image_url: IMG_BASE_PATH + "09-text-complete.png",
-          buttons: sectionButtons 
-        }
-      );
-    break; 
-    case 'QR_BACKGROUND_1':
-      addSectionButton('Rotation', 'QR_ROTATION_1');
-      addSectionButton('Photo', 'QR_PHOTO_1');
-      addSectionButton('Caption', 'QR_CAPTION_1');
+//       templateElements.push(
+//         {
+//           title: "Caption",
+//           subtitle: "click to start",
+//           image_url: IMG_BASE_PATH + "06-text-hover.png",
+//           buttons: sectionButtons 
+//         }, 
+//         {
+//           title: "Caption",
+//           subtitle: "enter text",
+//           image_url: IMG_BASE_PATH + "07-text-mid-entry.png",
+//           buttons: sectionButtons 
+//         },
+//         {
+//           title: "Caption",
+//           subtitle: "click OK",
+//           image_url: IMG_BASE_PATH + "08-text-entry-done.png",
+//           buttons: sectionButtons 
+//         },
+//         {
+//           title: "Caption",
+//           subtitle: "Caption done",
+//           image_url: IMG_BASE_PATH + "09-text-complete.png",
+//           buttons: sectionButtons 
+//         }
+//       );
+//     break; 
+//     case 'QR_BACKGROUND_1':
+//       addSectionButton('Rotation', 'QR_ROTATION_1');
+//       addSectionButton('Photo', 'QR_PHOTO_1');
+//       addSectionButton('Caption', 'QR_CAPTION_1');
 
-      templateElements.push(
-        {
-          title: "Background Color Picker",
-          subtitle: "click to start",
-          image_url: IMG_BASE_PATH + "10-background-picker-hover.png",
-          buttons: sectionButtons 
-        },
-        {
-          title: "Background Color Picker",
-          subtitle: "click current color",
-          image_url: IMG_BASE_PATH + "11-background-picker-appears.png",
-          buttons: sectionButtons 
-        },
-        {
-          title: "Background Color Picker",
-          subtitle: "select new color",
-          image_url: IMG_BASE_PATH + "12-background-picker-selection.png",
-          buttons: sectionButtons 
-        }, 
-        {
-          title: "Background Color Picker",
-          subtitle: "click ok",
-          image_url: IMG_BASE_PATH + "13-background-picker-selection-made.png",
-          buttons: sectionButtons 
-        },
-        {
-          title: "Background Color Picker",
-          subtitle: "color is applied",
-          image_url: IMG_BASE_PATH + "14-background-changed.png",
-          buttons: sectionButtons 
-        }
-      );
-    break; 
-  }
+//       templateElements.push(
+//         {
+//           title: "Background Color Picker",
+//           subtitle: "click to start",
+//           image_url: IMG_BASE_PATH + "10-background-picker-hover.png",
+//           buttons: sectionButtons 
+//         },
+//         {
+//           title: "Background Color Picker",
+//           subtitle: "click current color",
+//           image_url: IMG_BASE_PATH + "11-background-picker-appears.png",
+//           buttons: sectionButtons 
+//         },
+//         {
+//           title: "Background Color Picker",
+//           subtitle: "select new color",
+//           image_url: IMG_BASE_PATH + "12-background-picker-selection.png",
+//           buttons: sectionButtons 
+//         }, 
+//         {
+//           title: "Background Color Picker",
+//           subtitle: "click ok",
+//           image_url: IMG_BASE_PATH + "13-background-picker-selection-made.png",
+//           buttons: sectionButtons 
+//         },
+//         {
+//           title: "Background Color Picker",
+//           subtitle: "color is applied",
+//           image_url: IMG_BASE_PATH + "14-background-changed.png",
+//           buttons: sectionButtons 
+//         }
+//       );
+//     break; 
+//   }
 
-  if (templateElements.length < 2) {
-    console.error("each template should have at least two elements");
-  }
+//   if (templateElements.length < 2) {
+//     console.error("each template should have at least two elements");
+//   }
   
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: templateElements
-        }
-      }
-    }
-  };
+//   var messageData = {
+//     recipient: {
+//       id: recipientId
+//     },
+//     message: {
+//       attachment: {
+//         type: "template",
+//         payload: {
+//           template_type: "generic",
+//           elements: templateElements
+//         }
+//       }
+//     }
+//   };
 
-  return messageData;
-}
+//   return messageData;
+// }
 
-/*
- * This response uses image attachments to illustrate each step of each feature.
- * This is less flexible because you are limited in the number of options you can
- * provide for the user. This technique is best for cases where the content should
- * be consumed in a strict linear order.
- *
- */
-function getImageAttachments(recipientId, helpRequestType) {
-  var textToSend = '';
-  var quickReplies = [
-    {
-      "content_type":"text",
-      "title":"Restart",
-      "payload":"QR_RESTART"
-    }, // this option should always be present because it allows the user to start over
-    {
-      "content_type":"text",
-      "title":"Continue",
-      "payload":""
-    } // the Continue option only makes sense if there is more content to show 
-      // remove this option when you are at the end of a branch in the content tree
-      // i.e.: when you are showing the last message for the selected feature
-  ];
+// /*
+//  * This response uses image attachments to illustrate each step of each feature.
+//  * This is less flexible because you are limited in the number of options you can
+//  * provide for the user. This technique is best for cases where the content should
+//  * be consumed in a strict linear order.
+//  *
+//  */
+// function getImageAttachments(recipientId, helpRequestType) {
+//   var textToSend = '';
+//   var quickReplies = [
+//     {
+//       "content_type":"text",
+//       "title":"Restart",
+//       "payload":"QR_RESTART"
+//     }, // this option should always be present because it allows the user to start over
+//     {
+//       "content_type":"text",
+//       "title":"Continue",
+//       "payload":""
+//     } // the Continue option only makes sense if there is more content to show 
+//       // remove this option when you are at the end of a branch in the content tree
+//       // i.e.: when you are showing the last message for the selected feature
+//   ];
   
-  // to send an image attachment in a message, just set the payload property of this attachment object
-  // if the payload property is defined, this will be added to the message before it is sent
-  var attachment = {
-    "type": "image",
-    "payload": ""
-  };
+//   // to send an image attachment in a message, just set the payload property of this attachment object
+//   // if the payload property is defined, this will be added to the message before it is sent
+//   var attachment = {
+//     "type": "image",
+//     "payload": ""
+//   };
 
-  switch(helpRequestType) {
-    case 'QR_RESTART' :
-      sendHelpOptionsAsQuickReplies(recipientId);
-      return;
-    break;
+//   switch(helpRequestType) {
+//     case 'QR_RESTART' :
+//       sendHelpOptionsAsQuickReplies(recipientId);
+//       return;
+//     break;
     
-    // the Rotation feature
-    case 'QR_ROTATION_1' :
-      textToSend = 'Click the Rotate button to toggle the poster\'s orientation between landscape and portrait mode.';
-      quickReplies[1].payload = "QR_ROTATION_2";
-    break; 
-    case 'QR_ROTATION_2' :
-      // 1 of 2 (portrait, landscape)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "01-rotate-landscape.png"
-      }
-      quickReplies[1].payload = "QR_ROTATION_3";
-    break; 
-    case 'QR_ROTATION_3' :
-      // 2 of 2 (portrait, landscape)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "02-rotate-portrait.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Rotation feature
+//     // the Rotation feature
+//     case 'QR_ROTATION_1' :
+//       textToSend = 'Click the Rotate button to toggle the poster\'s orientation between landscape and portrait mode.';
+//       quickReplies[1].payload = "QR_ROTATION_2";
+//     break; 
+//     case 'QR_ROTATION_2' :
+//       // 1 of 2 (portrait, landscape)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "01-rotate-landscape.png"
+//       }
+//       quickReplies[1].payload = "QR_ROTATION_3";
+//     break; 
+//     case 'QR_ROTATION_3' :
+//       // 2 of 2 (portrait, landscape)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "02-rotate-portrait.png"
+//       }
+//       quickReplies.pop();
+//       quickReplies[0].title = "Explore another feature";
+//     break; 
+//     // the Rotation feature
 
 
-    // the Photo feature
-    case 'QR_PHOTO_1' :
-      textToSend = 'Click the Photo button to select an image to use on your poster. We recommend visiting https://unsplash.com/random from your device to seed your Downloads folder with some images before you get started.';
-      quickReplies[1].payload = "QR_PHOTO_2";
-    break; 
-    case 'QR_PHOTO_2' :
-      // 1 of 3 (placeholder image, Downloads folder, poster with image)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "03-photo-hover.png"
-      }
-      quickReplies[1].payload = "QR_PHOTO_3";
-    break; 
-    case 'QR_PHOTO_3' :
-      // 2 of 3 (placeholder image, Downloads folder, poster with image)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "04-photo-list.png"
-      }
-      quickReplies[1].payload = "QR_PHOTO_4";
-    break; 
-    case 'QR_PHOTO_4' :
-      // 3 of 3 (placeholder image, Downloads folder, poster with image)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "05-photo-selected.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Photo feature
+//     // the Photo feature
+//     case 'QR_PHOTO_1' :
+//       textToSend = 'Click the Photo button to select an image to use on your poster. We recommend visiting https://unsplash.com/random from your device to seed your Downloads folder with some images before you get started.';
+//       quickReplies[1].payload = "QR_PHOTO_2";
+//     break; 
+//     case 'QR_PHOTO_2' :
+//       // 1 of 3 (placeholder image, Downloads folder, poster with image)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "03-photo-hover.png"
+//       }
+//       quickReplies[1].payload = "QR_PHOTO_3";
+//     break; 
+//     case 'QR_PHOTO_3' :
+//       // 2 of 3 (placeholder image, Downloads folder, poster with image)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "04-photo-list.png"
+//       }
+//       quickReplies[1].payload = "QR_PHOTO_4";
+//     break; 
+//     case 'QR_PHOTO_4' :
+//       // 3 of 3 (placeholder image, Downloads folder, poster with image)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "05-photo-selected.png"
+//       }
+//       quickReplies.pop();
+//       quickReplies[0].title = "Explore another feature";
+//     break; 
+//     // the Photo feature
 
 
-    // the Caption feature
-    case 'QR_CAPTION_1' :
-      textToSend = 'Click the Text button to set the caption that appears at the bottom of the poster.';
-      quickReplies[1].payload = "QR_CAPTION_2";
-    break; 
-    case 'QR_CAPTION_2' :
-      // 1 of 4 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "06-text-hover.png"
-      }
-      quickReplies[1].payload = "QR_CAPTION_3";
-    break; 
-    case 'QR_CAPTION_3' :
-      // 2 of 4: (hover, entering caption, mid-edit, poster with new caption
-      attachment.payload = {
-        url: IMG_BASE_PATH + "07-text-mid-entry.png"
-      }
-      quickReplies[1].payload = "QR_CAPTION_4";
-    break; 
-    case 'QR_CAPTION_4' :
-      // 3 of 4 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "08-text-entry-done.png"
-      }
-      quickReplies[1].payload = "QR_CAPTION_5";
-    break; 
-    case 'QR_CAPTION_5' :
-      // 4 of 4 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "09-text-complete.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Caption feature
+//     // the Caption feature
+//     case 'QR_CAPTION_1' :
+//       textToSend = 'Click the Text button to set the caption that appears at the bottom of the poster.';
+//       quickReplies[1].payload = "QR_CAPTION_2";
+//     break; 
+//     case 'QR_CAPTION_2' :
+//       // 1 of 4 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "06-text-hover.png"
+//       }
+//       quickReplies[1].payload = "QR_CAPTION_3";
+//     break; 
+//     case 'QR_CAPTION_3' :
+//       // 2 of 4: (hover, entering caption, mid-edit, poster with new caption
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "07-text-mid-entry.png"
+//       }
+//       quickReplies[1].payload = "QR_CAPTION_4";
+//     break; 
+//     case 'QR_CAPTION_4' :
+//       // 3 of 4 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "08-text-entry-done.png"
+//       }
+//       quickReplies[1].payload = "QR_CAPTION_5";
+//     break; 
+//     case 'QR_CAPTION_5' :
+//       // 4 of 4 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "09-text-complete.png"
+//       }
+//       quickReplies.pop();
+//       quickReplies[0].title = "Explore another feature";
+//     break; 
+//     // the Caption feature
 
 
 
-    // the Color Picker feature
-    case 'QR_BACKGROUND_1' :
-      textToSend = 'Click the Background button to select a background color for your poster.';
-      quickReplies[1].payload = "QR_BACKGROUND_2";
-    break; 
-    case 'QR_BACKGROUND_2' :
-      // 1 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "10-background-picker-hover.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_3";
-    break; 
-    case 'QR_BACKGROUND_3' :
-      // 2 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "11-background-picker-appears.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_4";
-    break; 
-    case 'QR_BACKGROUND_4' :
-      // 3 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "12-background-picker-selection.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_5";
-    break; 
-    case 'QR_BACKGROUND_5' :
-      // 4 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "13-background-picker-selection-made.png"
-      }
-      quickReplies[1].payload = "QR_BACKGROUND_6";
-    break; 
-    case 'QR_BACKGROUND_6' :
-      // 5 of 5 (hover, entering caption, mid-edit, poster with new caption)
-      attachment.payload = {
-        url: IMG_BASE_PATH + "14-background-changed.png"
-      }
-      quickReplies.pop();
-      quickReplies[0].title = "Explore another feature";
-    break; 
-    // the Color Picker feature
+//     // the Color Picker feature
+//     case 'QR_BACKGROUND_1' :
+//       textToSend = 'Click the Background button to select a background color for your poster.';
+//       quickReplies[1].payload = "QR_BACKGROUND_2";
+//     break; 
+//     case 'QR_BACKGROUND_2' :
+//       // 1 of 5 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "10-background-picker-hover.png"
+//       }
+//       quickReplies[1].payload = "QR_BACKGROUND_3";
+//     break; 
+//     case 'QR_BACKGROUND_3' :
+//       // 2 of 5 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "11-background-picker-appears.png"
+//       }
+//       quickReplies[1].payload = "QR_BACKGROUND_4";
+//     break; 
+//     case 'QR_BACKGROUND_4' :
+//       // 3 of 5 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "12-background-picker-selection.png"
+//       }
+//       quickReplies[1].payload = "QR_BACKGROUND_5";
+//     break; 
+//     case 'QR_BACKGROUND_5' :
+//       // 4 of 5 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "13-background-picker-selection-made.png"
+//       }
+//       quickReplies[1].payload = "QR_BACKGROUND_6";
+//     break; 
+//     case 'QR_BACKGROUND_6' :
+//       // 5 of 5 (hover, entering caption, mid-edit, poster with new caption)
+//       attachment.payload = {
+//         url: IMG_BASE_PATH + "14-background-changed.png"
+//       }
+//       quickReplies.pop();
+//       quickReplies[0].title = "Explore another feature";
+//     break; 
+//     // the Color Picker feature
 
-    default : 
-      sendHelpOptionsAsQuickReplies(recipientId);
-      return;
+//     default : 
+//       sendHelpOptionsAsQuickReplies(recipientId);
+//       return;
 
-    break;
-  }
+//     break;
+//   }
 
   var messageData = {
     recipient: {
