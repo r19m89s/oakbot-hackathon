@@ -284,7 +284,6 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
   switch (requestForHelpOnFeature) {
     case 'PROFILE_NAME':
       console.log("PROFILE_NAME");
-      // messageData = 
       addSectionButton('', 'QR_PHOTO_1');
       addSectionButton('Caption', 'QR_CAPTION_1');
       addSectionButton('Background', 'QR_BACKGROUND_1');
@@ -347,7 +346,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
         type: "template",
         payload: {
           template_type: "generic",
-          elements: templateElements
+          // elements: templateElements
         }
       }
     }
