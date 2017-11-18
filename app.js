@@ -203,7 +203,7 @@ function meetPerson(recipientId) {
       id: recipientId
     },
     message: {
-      text: "Hello! my name is Celesta. Would you please give me permission to access your name according to your profile or give me a name to call you?"
+      text: "Hello! my name is Celesta. Would you please give me permission to access your name according to your profile or give me a name to call you?",
       quick_replies: [
         {
           "content_type":"text",
