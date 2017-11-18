@@ -305,7 +305,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
       // );
     break; 
     case 'GIVE_ANOTHER_NAME':
-      console.log("GIVE_ANOTHER_NAME");
+      console.log("GIVE_ANOTHER_NAME, "+name_placeholder[elements]);
       // addSectionButton('Rotation', 'QR_ROTATION_1');
       // addSectionButton('Caption', 'QR_CAPTION_1');
       // addSectionButton('Background', 'QR_BACKGROUND_1');
@@ -364,7 +364,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
  *
  */
 // function getImageAttachments(recipientId, helpRequestType) {
-  function getNameOptions(recipientId, helpRequestType) {
+  function getNameOptions(recipientId, greetingRequestType) {
   var textToSend = '';
   // var xmlHttp = new XMLHttpRequest();
   // xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
@@ -393,7 +393,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     "payload": ""
   };
 
-  switch(helpRequestType) {
+  switch(greetingRequestType) {
     case 'QR_RESTART' :
       sendHelpOptionsAsQuickReplies(recipientId);
       return;
@@ -409,7 +409,6 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
       attachment.payload = {
         url: IMG_BASE_PATH + "01-rotate-landscape.png"
       }
-      // quickReplies[1].payload = "QR_ROTATION_3";
     break; 
     default : 
       sendHelpOptionsAsQuickReplies(recipientId);
@@ -432,7 +431,6 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     // text can not be specified when you're sending an attachment
     delete messageData.message.text;
   }
-
   return messageData;
 }
 
