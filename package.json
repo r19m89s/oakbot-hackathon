@@ -1,0 +1,27 @@
+{
+  "name": "oak-bot",
+  "version": "1.0.0",
+  "description": "Oakland FB Dev Circle chatbot tutorial",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devcfacebook/oakbot-intro"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "chatbot",
+    "oakland",
+    "messenger"
+  ],
+  "author": "Ife Ajiboye <ajiboyeifedayo@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "request": "^2.83.0"
+  }
+}
