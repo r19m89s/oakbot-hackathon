@@ -433,10 +433,10 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
 // function getImageAttachments(recipientId, helpRequestType) {
   function getNameOptions(recipientId, helpRequestType) {
   var textToSend = '';
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-  xmlHttp.send( null );
-  var profileName = bodyParser(xmlHttp.response).get("first_name");
+  // var xmlHttp = new XMLHttpRequest();
+  // xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+  // xmlHttp.send( null );
+  // var profileName = bodyParser(xmlHttp.response).get("first_name");
   console.log(profileName);
   var quickReplies = [
     {
@@ -469,7 +469,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     // the Rotation feature
     case 'PROFILE_NAME' :
       console.log("PROFILE_NAME");
-      textToSend = 'Hello, '+profileName+'!';
+      textToSend = 'Hello, ROISIN!';
       // quickReplies[1].payload = "QR_ROTATION_2";
     break; 
     case 'GIVE_ANOTHER_NAME' :
