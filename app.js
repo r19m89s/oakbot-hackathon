@@ -229,7 +229,7 @@ function askWhatToDo(recipientId) {
       id: recipientId
     },
     message: {
-      text: "What can I help you with today?"
+      text: "What can I help you with today?",
       quick_replies: [
         {
           "content_type":"text",
