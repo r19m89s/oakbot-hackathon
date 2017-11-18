@@ -402,8 +402,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     // the Rotation feature
     case 'PROFILE_NAME' :
       console.log("PROFILE_NAME");
-      textToSend = 'Hello, ROISIN!';
-      // quickReplies[1].payload = "QR_ROTATION_2";
+      quickReplies[1].payload = "PROFILE_NAME";
     break; 
     case 'GIVE_ANOTHER_NAME' :
       // 1 of 2 (portrait, landscape)
