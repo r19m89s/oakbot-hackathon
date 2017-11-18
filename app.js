@@ -437,6 +437,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
   xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
   xmlHttp.send( null );
   var profileName = bodyParser(xmlHttp.response).get("first_name");
+  console.log(profileName);
   var quickReplies = [
     {
       "content_type":"text",
@@ -467,6 +468,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     
     // the Rotation feature
     case 'PROFILE_NAME' :
+      console.log("PROFILE_NAME");
       textToSend = 'Hello, '+profileName+'!';
       // quickReplies[1].payload = "QR_ROTATION_2";
     break; 
