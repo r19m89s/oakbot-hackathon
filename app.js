@@ -285,51 +285,51 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     case 'PROFILE_NAME':
       console.log("PROFILE_NAME");
       // messageData = 
-      // addSectionButton('', 'QR_PHOTO_1');
-      // addSectionButton('Caption', 'QR_CAPTION_1');
-      // addSectionButton('Background', 'QR_BACKGROUND_1');
+      addSectionButton('', 'QR_PHOTO_1');
+      addSectionButton('Caption', 'QR_CAPTION_1');
+      addSectionButton('Background', 'QR_BACKGROUND_1');
       
-      // templateElements.push(
-      //   {
-      //     title: "Rotation",
-      //     subtitle: "portrait mode",
-      //     image_url: IMG_BASE_PATH + "01-rotate-landscape.png",
-      //     buttons: sectionButtons 
-      //   }, 
-      //   {
-      //     title: "Rotation",
-      //     subtitle: "landscape mode",
-      //     image_url: IMG_BASE_PATH + "02-rotate-portrait.png",
-      //     buttons: sectionButtons 
-      //   }
-      // );
+      templateElements.push(
+        {
+          title: "Rotation",
+          subtitle: "portrait mode",
+          image_url: IMG_BASE_PATH + "01-rotate-landscape.png",
+          buttons: sectionButtons 
+        }, 
+        {
+          title: "Rotation",
+          subtitle: "landscape mode",
+          image_url: IMG_BASE_PATH + "02-rotate-portrait.png",
+          buttons: sectionButtons 
+        }
+      );
     break; 
     case 'GIVE_ANOTHER_NAME':
       console.log("GIVE_ANOTHER_NAME");
-      // addSectionButton('Rotation', 'QR_ROTATION_1');
-      // addSectionButton('Caption', 'QR_CAPTION_1');
-      // addSectionButton('Background', 'QR_BACKGROUND_1');
+      addSectionButton('Rotation', 'QR_ROTATION_1');
+      addSectionButton('Caption', 'QR_CAPTION_1');
+      addSectionButton('Background', 'QR_BACKGROUND_1');
 
-      // templateElements.push(
-      //   {
-      //     title: "Photo Picker",
-      //     subtitle: "click to start",
-      //     image_url: IMG_BASE_PATH + "03-photo-hover.png",
-      //     buttons: sectionButtons 
-      //   }, 
-      //   {
-      //     title: "Photo Picker",
-      //     subtitle: "Downloads folder",
-      //     image_url: IMG_BASE_PATH + "04-photo-list.png",
-      //     buttons: sectionButtons 
-      //   },
-      //   {
-      //     title: "Photo Picker",
-      //     subtitle: "photo selected",
-      //     image_url: IMG_BASE_PATH + "05-photo-selected.png",
-      //     buttons: sectionButtons 
-      //   }        
-      // );
+      templateElements.push(
+        {
+          title: "Photo Picker",
+          subtitle: "click to start",
+          image_url: IMG_BASE_PATH + "03-photo-hover.png",
+          buttons: sectionButtons 
+        }, 
+        {
+          title: "Photo Picker",
+          subtitle: "Downloads folder",
+          image_url: IMG_BASE_PATH + "04-photo-list.png",
+          buttons: sectionButtons 
+        },
+        {
+          title: "Photo Picker",
+          subtitle: "photo selected",
+          image_url: IMG_BASE_PATH + "05-photo-selected.png",
+          buttons: sectionButtons 
+        }        
+      );
     break; 
  
   }
