@@ -684,15 +684,3 @@ app.listen(app.get('port'), function() {
 });
 
 module.exports = app;
-© 2017 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
