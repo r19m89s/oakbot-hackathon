@@ -433,7 +433,10 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
 // function getImageAttachments(recipientId, helpRequestType) {
   function getNameOptions(recipientId, helpRequestType) {
   var textToSend = '';
-  var profileName = 
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+  xmlHttp.send( null );
+  var profileName = bodyParser(xmlHttp.response).get("first_name");
   var quickReplies = [
     {
       "content_type":"text",
@@ -464,7 +467,7 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
     
     // the Rotation feature
     case 'PROFILE_NAME' :
-      textToSend = 'Hello, **{{user_first_name}}**!';
+      textToSend = 'Hello, '+profileName+'!';
       // quickReplies[1].payload = "QR_ROTATION_2";
     break; 
     case 'GIVE_ANOTHER_NAME' :
