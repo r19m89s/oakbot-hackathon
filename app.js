@@ -9,6 +9,7 @@ const
   BootBot = require('bootbot'),
   chrono = require('chrono-node'),
   schedule = require('node-schedule'),
+  request = require('request'),
   EventEmitter = require('events').EventEmitter;
 
 var app = express();
