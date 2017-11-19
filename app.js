@@ -12,10 +12,10 @@ const
   EventEmitter = require('events').EventEmitter;
 
 var app = express();
-// app.set('port', config.port);
-// app.set('view engine', 'ejs');
-// app.use(bodyParser.json({ verify: verifyRequestSignature }));
-// app.use(express.static('public'));
+app.set('port', config.port);
+app.set('view engine', 'ejs');
+app.use(bodyParser.json({ verify: verifyRequestSignature }));
+app.use(express.static('public'));
 
 // App Dashboard > Dashboard > click the Show button in the App Secret field
 const APP_SECRET = config.appSecret;
