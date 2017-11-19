@@ -11,7 +11,7 @@ const
   schedule = require('node-schedule'),
   EventEmitter = require('events').EventEmitter;
 
-// var app = express();
+var app = express();
 // app.set('port', config.port);
 // app.set('view engine', 'ejs');
 // app.use(bodyParser.json({ verify: verifyRequestSignature }));
