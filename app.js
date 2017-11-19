@@ -6,6 +6,8 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),  
+  express = require('express'),
+  app = express()
   request = require('request');
 
 var app = express();
@@ -284,10 +286,15 @@ function getGenericTemplates(recipientId, requestForHelpOnFeature) {
 
   switch (requestForHelpOnFeature) {
     case 'PROFILE_NAME':
+      
       user_name = "VAR";
     break; 
     case 'GIVE_ANOTHER_NAME':
-      user_name = "other name";
+       convo.ask("What's your name, friend?", (payload, convo) => {
+        user_name = payload.message.text;
+        convo.set('user_name', user_name)
+        convo.say("setting name as "+user_name);
+      })
     break; 
  
   }
