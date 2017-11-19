@@ -88,4 +88,5 @@ bot.hear('hello', (payload, chat) => {
   }
 });
 
+bot.start();
 module.exports = app;
