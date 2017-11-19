@@ -16,7 +16,6 @@ const
   PAGE_ACCESS_TOKEN = config.pageAccessToken,
   IMG_BASE_PATH = 'https://rodnolan.github.io/posterific-static-images/',
   EventEmitter = require('events').EventEmitter;
-var config = {};
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
