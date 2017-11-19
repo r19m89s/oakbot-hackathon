@@ -12,7 +12,8 @@ const
   request = require('request'),
   reminders = [],
   IMG_BASE_PATH = 'https://rodnolan.github.io/posterific-static-images/',
-  EventEmitter = require('events').EventEmitter;
+  EventEmitter = require('events').EventEmitter,
+  eventEmitter = new EventEmitter();
 var app = express();
 app.set('port', config.port);
 app.set('view engine', 'ejs');
