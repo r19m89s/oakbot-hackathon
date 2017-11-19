@@ -73,7 +73,11 @@ const bot = new BootBot({
   appSecret: APP_SECRET
 })
 
-bot.setGreetingText("Hello, my name is Celeste. What would you like to be called?");
+bot.setGreetingText("Hello, my name is Celeste. I'm here when for when you feel overwhelmed.");
+bot.setGetStartedButton((payload, chat) => {
+  chat.say('What would you like me to call you?')
+  BotUserId = payload.sender.id
+});
 bot.hear('hello', (payload, chat) => {
   const getBucketSlug = (convo) => {
     convo.ask("What's your name?", (payload, convo) => {
