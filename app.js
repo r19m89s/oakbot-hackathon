@@ -16,9 +16,9 @@ const
 var app = express();
 
 const bot = new BootBot({
-  accessToken: process.env.ACCESS_TOKEN,
-  verifyToken: process.env.VERIFY_TOKEN,
-  appSecret: process.env.APP_SECRET
+  accessToken:  config.pageAccessToken,
+  verifyToken: config.validationToken,
+  appSecret: config.appSecret
 })
 
 
