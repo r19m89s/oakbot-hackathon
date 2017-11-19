@@ -18,6 +18,28 @@ app.set('port', config.port);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
+function verifyRequestSignature(req, res, buf) {
+  var signature = req.headers["x-hub-signature"];
+
+  if (!signature) {
+    // In DEV, log an error. In PROD, throw an error.
+    console.error("Couldn't validate the signature.");
+  } else {
+    var elements = signature.split('=');
+    var method = elements[0];
+    var signatureHash = elements[1];
+
+    var expectedHash = crypto.createHmac('sha1', APP_SECRET)
+                        .update(buf)
+                        .digest('hex');
+
+    console.log("received  %s", signatureHash);
+    console.log("exepected %s", expectedHash);
+    if (signatureHash != expectedHash) {
+      throw new Error("Couldn't validate the request signature.");
+    }
+  }
+}
 
 // App Dashboard > Dashboard > click the Show button in the App Secret field
 const APP_SECRET = config.appSecret;
