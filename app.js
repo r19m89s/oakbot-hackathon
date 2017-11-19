@@ -1,56 +1,23 @@
-'use strict';
-require('dotenv').config();
-const 
-  bodyParser = require('body-parser'),
-  config = require('./config'),
-  crypto = require('crypto'),
-  express = require('express'),
-  Cosmic = require('cosmicjs'),
-  BootBot = require('bootbot'),
-  chrono = require('chrono-node'),
-  schedule = require('node-schedule'),
-  request = require('request'),
-  reminders = [],
-  IMG_BASE_PATH = 'https://rodnolan.github.io/posterific-static-images/',
-  EventEmitter = require('events').EventEmitter,
-  eventEmitter = new EventEmitter();
-var app = express();
-app.set('port', config.port);
-app.set('view engine', 'ejs');
-app.use(bodyParser.json({ verify: verifyRequestSignature }));
-app.use(express.static('public'));
-function verifyRequestSignature(req, res, buf) {
-  var signature = req.headers["x-hub-signature"];
+const express = require('express')
+const bodyParser = require('body-parser')
+const request = require('request')
+const app = express()
+const Cosmic = require('cosmicjs')
+const BootBot = require('bootbot')
+require('dotenv').config()
+const chrono = require('chrono-node')
+var schedule = require('node-schedule')
+const EventEmitter = require('events').EventEmitter
 
-  if (!signature) {
-    // In DEV, log an error. In PROD, throw an error.
-    console.error("Couldn't validate the signature.");
-  } else {
-    var elements = signature.split('=');
-    var method = elements[0];
-    var signatureHash = elements[1];
+var config = {}
 
-    var expectedHash = crypto.createHmac('sha1', APP_SECRET)
-                        .update(buf)
-                        .digest('hex');
+const reminders = []
 
-    console.log("received  %s", signatureHash);
-    console.log("exepected %s", expectedHash);
-    if (signatureHash != expectedHash) {
-      throw new Error("Couldn't validate the request signature.");
-    }
-  }
-}
+const eventEmitter = new EventEmitter()
 
-// App Dashboard > Dashboard > click the Show button in the App Secret field
-const APP_SECRET = config.appSecret;
-
-// App Dashboard > Webhooks > Edit Subscription > copy whatever random value you decide to use in the Verify Token field
-const VALIDATION_TOKEN = config.validationToken;
-
-// App Dashboard > Messenger > Settings > Token Generation > select your page > copy the token that appears
-const PAGE_ACCESS_TOKEN = config.pageAccessToken;
-
+app.set('port', (process.env.PORT || 5000))
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 app.get('/', function(req, res) {
   res.send("hey there boi")
@@ -69,12 +36,12 @@ app.listen(app.get('port'), function(){
 
 
 const bot = new BootBot({
-  accessToken: PAGE_ACCESS_TOKEN,
-  verifyToken: VALIDATION_TOKEN,
-  appSecret: APP_SECRET
+  accessToken: process.env.ACCESS_TOKEN,
+  verifyToken: process.env.VERIFY_TOKEN,
+  appSecret: process.env.APP_SECRET
 })
 
-bot.setGreetingText("Hello, my name is Celeste. I'm here when for when you feel overwhelmed.");
+bot.setGreetingText("Hello, I'm here to help you manage your tasks. Be sure to setup your bucket by typing 'Setup'. ")
 
 bot.setGetStartedButton((payload, chat) => {
   if(config.bucket === undefined){
