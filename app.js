@@ -1,14 +1,15 @@
 'use strict';
-
+require('dotenv').config();
 const 
   bodyParser = require('body-parser'),
   config = require('./config'),
   crypto = require('crypto'),
   express = require('express'),
-  https = require('https'),  
-  express = require('express'),
-  app = express()
-  request = require('request');
+  Cosmic = require('cosmicjs'),
+  BootBot = require('bootbot'),
+  chrono = require('chrono-node'),
+  schedule = require('node-schedule'),
+  EventEmitter = require('events').EventEmitter;
 
 var app = express();
 app.set('port', config.port);
