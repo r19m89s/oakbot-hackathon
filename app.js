@@ -10,38 +10,34 @@ const
   chrono = require('chrono-node'),
   schedule = require('node-schedule'),
   request = require('request'),
+  reminders = [],
+  APP_SECRET = config.appSecret,
+  VALIDATION_TOKEN = config.validationToken,
+  PAGE_ACCESS_TOKEN = config.pageAccessToken,
+  IMG_BASE_PATH = 'https://rodnolan.github.io/posterific-static-images/',
   EventEmitter = require('events').EventEmitter;
-
+var config = {};
 var app = express();
-app.set('port', config.port);
-app.set('view engine', 'ejs');
-app.use(bodyParser.json({ verify: verifyRequestSignature }));
-app.use(express.static('public'));
 
-// App Dashboard > Dashboard > click the Show button in the App Secret field
-const APP_SECRET = config.appSecret;
+app.set('port', (process.env.PORT || 5000));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
-// App Dashboard > Webhooks > Edit Subscription > copy whatever random value you decide to use in the Verify Token field
-const VALIDATION_TOKEN = config.validationToken;
+const bot = new BootBot({
+  accessToken: process.env.ACCESS_TOKEN,
+  verifyToken: process.env.VERIFY_TOKEN,
+  appSecret: process.env.APP_SECRET
+})
 
-// App Dashboard > Messenger > Settings > Token Generation > select your page > copy the token that appears
-const PAGE_ACCESS_TOKEN = config.pageAccessToken;
-
-// In an early version of this bot, the images were served from the local public/ folder.
-// Using an ngrok.io domain to serve images is no longer supported by the Messenger Platform.
-// Github Pages provides a simple image hosting solution (and it's free)
-const IMG_BASE_PATH = 'https://rodnolan.github.io/posterific-static-images/';
-
-// make sure that everything has been properly configured
-if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN)) {
-  console.error("Missing config values");
-  process.exit(1);
-}
-bot.on('message', (payload, chat) => {
-    const text = payload.message.text;
-    console.log(`The user said: ${text}`);
+bot.setGreetingText("Hello, my name is Celeste. What would you like to be called?");
+bot.hear('hello', (payload, chat) => {
+  const getBucketSlug = (convo) => {
+    convo.ask("What's your name?", (payload, convo) => {
+      var user_name = payload.message.text;
+      convo.set('user_name', user_name)
+      convo.say("setting name as "+user_name);
+    })
+  }
 });
-bot.hear(['hello', 'hi', /hey( there)?/i], (payload, chat) => {
-    console.log('The user said "hello", "hi", "hey", or "hey there"');
-});
+
 module.exports = app;
